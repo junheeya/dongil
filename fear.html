@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>돈길 공포탐욕지수</title>
+<meta property="og:title" content="돈길 공포탐욕지수">
+<meta property="og:description" content="미장 CNN 공포탐욕 · 국장 심리지수 · 실시간 VIX·지수 한눈에">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* VOICE: 돈길 일타강사, 시장 온도계를 한눈에.
+   IDEA: 계기판 — 미장과 국장 두 개의 바늘.
+   PICTURE: 반원 게이지 두 개, 바늘과 큰 숫자.
+   COLOUR and TYPE: 먹색 + 골드, 공포 빨강. Black Han Sans 숫자 + Noto Sans KR.
+   LAYOUT: 상단 바 → 제목 → 게이지 2장 → 실시간 위젯 → 읽는 법. 600px 아래 세로. */
+:root{color-scheme:dark;--bg:#0B0B0C;--ink:#F6F1E4;--sub:#C2BBAB;--line:#2E2B25;--panel:#151517;--gold:#F2C14E;--red:#FF4D5E;--org:#FF9F43;--mute:#6B665C}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;word-break:keep-all;background:var(--bg);color:var(--ink);font:16px/1.6 "Noto Sans KR",system-ui,sans-serif;overflow-x:clip}
+a{color:inherit}
+.top{background:var(--gold);color:#0B0B0C;padding:10px max(5vw,16px);font-weight:900;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.wrap{max-width:1240px;margin:0 auto;padding:0 max(5vw,16px)}
+h1{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:clamp(38px,6vw,64px);line-height:1.05;margin:28px 0 6px}
+h1 em{font-style:normal;color:var(--gold)}
+.upd{color:var(--sub);margin:0 0 22px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+@media(max-width:860px){.grid{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--panel);border:2px solid var(--line);border-radius:20px;padding:22px}
+.card h2{margin:0;font-size:22px;font-weight:900}
+.card .src{color:var(--sub);font-size:14px;margin:2px 0 6px}
+.gauge{position:relative;max-width:420px;margin:0 auto}
+.gauge svg{width:100%;height:auto;display:block}
+.score{text-align:center;margin-top:4px}
+.score b{display:block;font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:clamp(56px,9vw,84px);line-height:1}
+.score span{font-weight:900;font-size:20px}
+.delta{color:var(--sub);font-size:14px;text-align:center;margin-top:4px}
+.parts{margin-top:14px;border-top:1px solid var(--line);padding-top:10px}
+.prow{display:grid;grid-template-columns:8.5em minmax(0,1fr) 2.6em;gap:10px;align-items:center;padding:5px 0;font-size:15px}
+.bar{height:10px;border-radius:6px;background:#24221E;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:6px}
+.prow b{text-align:right;font-weight:900}
+.btn{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:12px;font-weight:900;text-decoration:none;border:2px solid var(--gold);color:var(--gold);margin-top:14px}
+.btn:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+section{margin-top:34px}
+h3{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:clamp(26px,3.6vw,36px);margin:0 0 6px}
+.note{color:var(--sub);font-size:14px}
+.quotes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:12px 0}
+@media(max-width:600px){.quotes{grid-template-columns:minmax(0,1fr)}}
+.q{background:var(--panel);border:2px solid var(--line);border-radius:16px;padding:14px 16px;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.q span{color:var(--sub);font-weight:700}
+.q b{font-size:24px;font-weight:900;white-space:nowrap}
+.q em{font-style:normal;font-weight:900;white-space:nowrap}
+.tv{background:var(--panel);border:2px solid var(--line);border-radius:16px;overflow:hidden;min-height:76px}
+.minis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:14px}
+@media(max-width:860px){.minis{grid-template-columns:minmax(0,1fr)}}
+.minis .tv{min-height:220px}
+.zones{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:12px}
+@media(max-width:600px){.zones{grid-template-columns:minmax(0,1fr)}}
+.z{border-radius:14px;padding:12px;color:#0B0B0C;font-weight:900}
+.z small{display:block;font-weight:700;font-size:14px}
+footer{border-top:1px solid var(--line);color:var(--sub);font-size:14px;padding:26px 0 40px;margin-top:40px}
+</style>
+</head>
+<body>
+<div class="top"><a href="./">← 돈길과 투자 여행 홈</a><a href="calc.html#leverage">물타기 계산기 →</a></div>
+<main class="wrap">
+  <h1>돈길 <em>공포탐욕</em>지수</h1>
+  <p class="upd" id="upd">업데이트 중…</p>
+
+  <div class="grid">
+    <article class="card" id="us"></article>
+    <article class="card" id="kr"></article>
+  </div>
+
+  <section>
+    <h3>실시간 시세</h3>
+    <p class="note">아래 띠와 차트는 TradingView 무료 위젯이에요. 거래소 사정에 따라 몇 분 늦게 보일 수 있어요.</p>
+    <div class="tv">
+      <div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div>
+      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+      {"symbols":[{"proName":"FOREXCOM:SPXUSD","title":"S&P 500"},{"proName":"FOREXCOM:NSXUSD","title":"나스닥 100"},{"proName":"TVC:VIX","title":"VIX 공포지수"},{"proName":"KRX:KOSPI","title":"KOSPI"},{"proName":"KRX:KOSDAQ","title":"KOSDAQ"},{"proName":"FX_IDC:USDKRW","title":"원/달러"}],"showSymbolLogo":true,"isTransparent":true,"displayMode":"adaptive","colorTheme":"dark","locale":"kr"}
+      </script></div>
+    </div>
+    <div class="minis">
+      <div class="tv"><div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div>
+      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+      {"symbol":"TVC:VIX","width":"100%","height":220,"locale":"kr","dateRange":"3M","colorTheme":"dark","isTransparent":true,"autosize":false}
+      </script></div></div>
+      <div class="tv"><div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div>
+      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+      {"symbol":"FOREXCOM:NSXUSD","width":"100%","height":220,"locale":"kr","dateRange":"3M","colorTheme":"dark","isTransparent":true,"autosize":false}
+      </script></div></div>
+      <div class="tv"><div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div>
+      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+      {"symbol":"KRX:KOSPI","width":"100%","height":220,"locale":"kr","dateRange":"3M","colorTheme":"dark","isTransparent":true,"autosize":false}
+      </script></div></div>
+    </div>
+    <p class="note" style="margin-top:14px">장 마감 기준 숫자</p>
+    <div class="quotes" id="quotes"></div>
+  </section>
+
+  <section>
+    <h3>공포탐욕 읽는 법</h3>
+    <p class="note">사람들이 겁먹을수록 0에, 흥분할수록 100에 가까워져요. 방향을 맞히는 지표가 아니라 지금 시장의 온도를 보는 지표예요.</p>
+    <div class="zones">
+      <div class="z" style="background:#FF4D5E">0~24<small>극단적 공포</small></div>
+      <div class="z" style="background:#FF9F43">25~44<small>공포</small></div>
+      <div class="z" style="background:#C2BBAB">45~55<small>중립</small></div>
+      <div class="z" style="background:#E8D28A">56~75<small>탐욕</small></div>
+      <div class="z" style="background:#F2C14E">76~100<small>극단적 탐욕</small></div>
+    </div>
+  </section>
+</main>
+<footer><div class="wrap">미국 지수는 CNN Business Fear &amp; Greed Index 수치를 출처와 함께 하루 1번 옮겨 적은 값이고, 국장 지수는 돈길 자체 기준이에요. 투자 권유가 아닌 참고용입니다. · <a href="https://www.youtube.com/channel/UCgSXOEln2LilXzVY-DXE3bA?sub_confirmation=1" target="_blank" rel="noopener">돈길 유튜브 구독</a></div></footer>
+
+<script src="fear-data.js"></script>
+<script>
+{
+  const D = window.FEAR_DATA || {};
+  const zone = (v) => v < 25 ? ["극단적 공포", "#FF4D5E"] : v < 45 ? ["공포", "#FF9F43"] : v <= 55 ? ["중립", "#C2BBAB"] : v <= 75 ? ["탐욕", "#E8D28A"] : ["극단적 탐욕", "#F2C14E"];
+  const arc = (a0, a1, r) => { const p = (a) => [200 + r * Math.cos(Math.PI * (1 - a)), 210 - r * Math.sin(Math.PI * (1 - a))]; const [x0, y0] = p(a0), [x1, y1] = p(a1); return `M${x0.toFixed(1)},${y0.toFixed(1)} A${r},${r} 0 0 1 ${x1.toFixed(1)},${y1.toFixed(1)}`; };
+  function gauge(v) {
+    const segs = [[0, .25, "#FF4D5E"], [.25, .45, "#FF9F43"], [.45, .55, "#C2BBAB"], [.55, .75, "#E8D28A"], [.75, 1, "#F2C14E"]];
+    const a = Math.max(0, Math.min(100, v)) / 100, ang = Math.PI * (1 - a);
+    const nx = 200 + 128 * Math.cos(ang), ny = 210 - 128 * Math.sin(ang);
+    return `<svg viewBox="0 0 400 230" role="img" aria-label="게이지 ${v}">
+      ${segs.map(([s, e, c]) => `<path d="${arc(s + .004, e - .004, 170)}" stroke="${c}" stroke-width="26" fill="none" opacity=".35"/>`).join("")}
+      <path d="${arc(0, Math.max(a, .005), 170)}" stroke="${zone(v)[1]}" stroke-width="26" fill="none" stroke-linecap="round"/>
+      <line x1="200" y1="210" x2="${nx.toFixed(1)}" y2="${ny.toFixed(1)}" stroke="#F6F1E4" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="200" cy="210" r="12" fill="#F6F1E4"/>
+      <text x="22" y="226" font-size="14" fill="#C2BBAB">0</text><text x="378" y="226" font-size="14" fill="#C2BBAB" text-anchor="end">100</text>
+    </svg>`;
+  }
+  function card(id, title, d, extra) {
+    const el = document.getElementById(id); if (!d) { el.innerHTML = `<h2>${title}</h2><p class="note">데이터 없음</p>`; return; }
+    const [lab, col] = zone(d.value);
+    const delta = d.prev != null ? `어제 ${d.prev} → 오늘 ${d.value} (${d.value - d.prev >= 0 ? "+" : ""}${d.value - d.prev})` : "";
+    el.style.borderTop = `4px solid ${col}`;
+    el.innerHTML = `<h2>${title}</h2><div class="src">${d.source}</div>
+      <div class="gauge">${gauge(d.value)}</div><div class="score"><b style="color:${col}">${d.value}</b><span style="color:${col}">${lab}</span></div>
+      <div class="delta">${delta}</div>
+      <div class="parts">${(d.parts || []).map(([n, v]) => { const c = zone(v)[1]; return `<div class="prow"><span>${n}</span><div class="bar"><i style="width:${Math.max(2, v)}%;background:${c}"></i></div><b style="color:${c}">${v}</b></div>`; }).join("")}</div>
+      ${extra || ""}`;
+  }
+  card("us", "미국 시장 · S&P 500", D.us, D.us && D.us.link ? `<a class="btn" href="${D.us.link}" target="_blank" rel="noopener">CNN 원본 보기 →</a>` : "");
+  card("kr", "한국 시장 · KOSPI · KOSDAQ", D.kr, `<a class="btn" href="calc.html#leverage">내 평단 계산하기 →</a>`);
+  document.getElementById("upd").textContent = D.updated ? `${D.updated} 기준 · 하루 1번 업데이트` : "";
+  document.getElementById("quotes").innerHTML = (D.quotes || []).map((q) => `<div class="q"><span>${q.name}</span><b>${q.value}</b><em style="color:${q.chg >= 0 ? "#FF4D5E" : "#5C9DFF"}">${q.chg >= 0 ? "▲" : "▼"} ${Math.abs(q.chg).toFixed(2)}%</em></div>`).join("");
+}
+</script>
+</body>
+</html>
