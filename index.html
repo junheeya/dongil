@@ -58,6 +58,19 @@ h2{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:clamp(30px,
 .channel h2{color:#0B0B0C}
 .channel p{margin:0;font-weight:500;font-size:17px}
 .channel .btn{background:#0B0B0C;color:var(--gold)}
+.flow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.fcol{background:var(--panel);border:2px solid var(--line);border-radius:20px;padding:20px 20px 12px;border-top:6px solid var(--c)}
+.fcol h3{margin:0 0 10px;font-size:22px;font-weight:900;color:var(--c)}
+.frow{position:relative;display:flex;align-items:center;gap:10px;padding:9px 6px;border-bottom:1px solid var(--line)}
+.frow:last-child{border-bottom:0}
+.frow i{position:absolute;left:0;top:5px;bottom:5px;background:var(--c);opacity:.14;border-radius:6px}
+.frow .rk{position:relative;width:26px;text-align:right;font-weight:900;color:var(--sub)}
+.frow.top .rk{color:var(--c)}
+.frow .nm{position:relative;flex:1;font-weight:700;font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.frow .am{position:relative;font-weight:900;font-size:17px;color:var(--c);font-variant-numeric:tabular-nums;white-space:nowrap}
+.frow.top .nm,.frow.top .am{font-size:19px}
+.flow-badge{display:inline-block;background:var(--red);color:#fff;font-weight:900;font-size:14px;padding:4px 10px;border-radius:999px;margin-right:8px;vertical-align:middle}
+@media(max-width:860px){.flow{grid-template-columns:minmax(0,1fr)}}
 footer{border-top:1px solid var(--line);color:var(--sub);font-size:14px;padding:28px 0 40px}
 @media(max-width:860px){.tools{grid-template-columns:minmax(0,1fr)}.hero{grid-template-columns:minmax(0,1fr)}.road{max-height:340px;aspect-ratio:16/10}}
 @media(max-width:600px){.series{grid-template-columns:minmax(0,1fr)}.series div:nth-child(odd){padding-right:4px}.channel{grid-template-columns:minmax(0,1fr)}}
@@ -67,7 +80,7 @@ footer{border-top:1px solid var(--line);color:var(--sub);font-size:14px;padding:
 <body>
 <header><div class="wrap nav">
   <a class="logo" href="./">돈길과 투자 여행</a>
-  <nav><a href="fear.html">공포탐욕</a><a href="#tools">계산기</a><a href="#series">시리즈</a><a href="https://www.youtube.com/channel/UCgSXOEln2LilXzVY-DXE3bA?sub_confirmation=1" target="_blank" rel="noopener">유튜브</a></nav>
+  <nav><a href="#flow">수급</a><a href="fear.html">공포탐욕</a><a href="#tools">계산기</a><a href="#series">시리즈</a><a href="https://www.youtube.com/channel/UCgSXOEln2LilXzVY-DXE3bA?sub_confirmation=1" target="_blank" rel="noopener">유튜브</a></nav>
 </div></header>
 
 <main class="wrap">
@@ -100,6 +113,13 @@ footer{border-top:1px solid var(--line);color:var(--sub);font-size:14px;padding:
       </svg>
     </div>
   </div>
+
+  <section class="band" id="flow" style="border-top:2px solid var(--gold)">
+    <h2><span class="flow-badge">HOT</span><span id="flowTitle">수급 TOP 10</span></h2>
+    <p class="sec-sub" id="flowPeriod">기관·연기금은 뭘 샀을까?</p>
+    <div class="flow" id="flowBox"></div>
+    <p style="color:var(--sub);font-size:13px;margin:14px 0 0">순매수 금액 기준 · 증권사 HTS 기관매매종목 자료 · 투자 권유 아님</p>
+  </section>
 
   <section class="band" id="tools">
     <h2>돈길 계산기</h2>
@@ -152,6 +172,21 @@ footer{border-top:1px solid var(--line);color:var(--sub);font-size:14px;padding:
 
 <footer><div class="wrap">이 사이트의 계산기와 콘텐츠는 투자 권유가 아닌 참고용입니다. 투자 판단과 책임은 본인에게 있습니다. · © 돈길과 투자 여행</div></footer>
 
+<script src="flow-data.js"></script>
+<script>
+{
+  const D=window.FLOW_DATA; const box=document.getElementById("flowBox");
+  if(!D){document.getElementById("flow").hidden=true}else{
+    document.getElementById("flowTitle").textContent=D.title;
+    document.getElementById("flowPeriod").textContent=D.period+" · 기관과 연기금이 가장 많이 산 종목";
+    const fmt=m=>{const e=Math.round(m/100);if(e>=10000){const j=Math.floor(e/10000),r=e%10000;return r?`${j}조 ${r.toLocaleString()}억`:`${j}조`}return e.toLocaleString()+"억"};
+    const esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+    box.innerHTML=D.groups.map(g=>{const max=g.rows[0][1];
+      return `<div class="fcol" style="--c:${g.color}"><h3>${esc(g.name)}</h3>`+
+        g.rows.map((r,i)=>`<div class="frow${i<3?" top":""}"><i style="width:${(r[1]/max*100).toFixed(1)}%"></i><span class="rk">${i+1}</span><span class="nm">${esc(r[0])}</span><span class="am">+${fmt(r[1])}</span></div>`).join("")+`</div>`}).join("");
+  }
+}
+</script>
 <script>
 {
   // 채널 링크는 여기에 넣으면 버튼이 생깁니다
