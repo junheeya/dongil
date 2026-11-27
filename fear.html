@@ -71,6 +71,14 @@ h3{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:clamp(26px,
 .nl-title{font-size:22px;font-weight:900;color:var(--ink)}
 .nl-sub{color:var(--sub)}
 .nl-go{font-weight:900;color:var(--gold);margin-top:4px}
+.live{margin:6px 0 24px;display:grid;gap:12px}
+.live-h{display:flex;align-items:center;gap:10px;font-weight:900;font-size:18px;flex-wrap:wrap}
+.live-h small{font-weight:500;font-size:13px;color:var(--sub)}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--red);box-shadow:0 0 0 0 rgba(255,77,94,.6);animation:pulse 1.6s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 10px rgba(255,77,94,0)}100%{box-shadow:0 0 0 0 rgba(255,77,94,0)}}
+@media(prefers-reduced-motion:reduce){.dot{animation:none}}
+.live .newslink{margin-top:0;flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:space-between;padding:16px 20px}
+.live .nl-sub{flex:1 1 320px}
 footer{border-top:1px solid var(--line);color:var(--sub);font-size:14px;padding:26px 0 40px;margin-top:40px}
 </style>
 </head>
@@ -79,6 +87,21 @@ footer{border-top:1px solid var(--line);color:var(--sub);font-size:14px;padding:
 <main class="wrap">
   <h1>돈길 <em>공포탐욕</em>지수</h1>
   <p class="upd" id="upd">업데이트 중…</p>
+
+  <div class="live">
+    <div class="live-h"><span class="dot"></span>실시간 시세 · 뉴스 <small>TradingView 무료 위젯, 몇 분 늦을 수 있어요</small></div>
+    <div class="tv">
+      <div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div>
+      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+      {"symbols":[{"proName":"FOREXCOM:SPXUSD","title":"S&P 500"},{"proName":"FOREXCOM:NSXUSD","title":"나스닥 100"},{"proName":"CAPITALCOM:VIX","title":"VIX 공포지수"},{"proName":"FX_IDC:USDKRW","title":"원/달러"},{"proName":"AMEX:EWY","title":"한국 ETF (EWY)"},{"proName":"NASDAQ:SOXX","title":"반도체 SOXX"}],"showSymbolLogo":true,"isTransparent":false,"displayMode":"adaptive","colorTheme":"dark","locale":"kr"}
+      </script></div>
+    </div>
+    <a class="newslink" href="https://kr.tradingview.com/news/" target="_blank" rel="noopener">
+      <span class="nl-title">TradingView 실시간 뉴스 (한국어)</span>
+      <span class="nl-sub">로이터·한국경제 등 최신 기사를 한글로 바로 볼 수 있어요. 몇 분 전 기사까지 계속 올라와요.</span>
+      <span class="nl-go">뉴스 보러 가기 →</span>
+    </a>
+  </div>
 
   <div class="grid">
     <article class="card" id="us"></article>
@@ -91,14 +114,8 @@ footer{border-top:1px solid var(--line);color:var(--sub);font-size:14px;padding:
   </div>
 
   <section>
-    <h3>실시간 시세</h3>
-    <p class="note">아래 띠와 차트는 TradingView 무료 위젯이에요. 거래소 사정에 따라 몇 분 늦게 보일 수 있어요.</p>
-    <div class="tv">
-      <div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div>
-      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
-      {"symbols":[{"proName":"FOREXCOM:SPXUSD","title":"S&P 500"},{"proName":"FOREXCOM:NSXUSD","title":"나스닥 100"},{"proName":"CAPITALCOM:VIX","title":"VIX 공포지수"},{"proName":"FX_IDC:USDKRW","title":"원/달러"},{"proName":"AMEX:EWY","title":"한국 ETF (EWY)"},{"proName":"NASDAQ:SOXX","title":"반도체 SOXX"}],"showSymbolLogo":true,"isTransparent":false,"displayMode":"adaptive","colorTheme":"dark","locale":"kr"}
-      </script></div>
-    </div>
+    <h3>지수 차트 · 장 마감</h3>
+    <p class="note">VIX · 나스닥100 · S&amp;P500 최근 3개월 흐름이에요.</p>
     <div class="minis">
       <div class="tv"><div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div>
       <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
@@ -115,15 +132,6 @@ footer{border-top:1px solid var(--line);color:var(--sub);font-size:14px;padding:
     </div>
     <p class="note" style="margin-top:14px">KOSPI·KOSDAQ은 무료 위젯에서 제공되지 않아 장 마감 숫자로 보여드려요</p>
     <div class="quotes" id="quotes"></div>
-  </section>
-
-  <section id="feed">
-    <h3>실시간 시장 뉴스</h3>
-    <a class="newslink" href="https://kr.tradingview.com/news/" target="_blank" rel="noopener">
-      <span class="nl-title">TradingView 실시간 뉴스 (한국어)</span>
-      <span class="nl-sub">로이터·한국경제 등 최신 기사를 한글로 바로 볼 수 있어요. 몇 분 전 기사까지 계속 올라와요.</span>
-      <span class="nl-go">뉴스 보러 가기 →</span>
-    </a>
   </section>
 
   <section id="map">
