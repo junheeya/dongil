@@ -23,9 +23,8 @@ window.FEAR_DATA = {
     ]
   },
 
-  quotes: [                               // 장 마감 기준 숫자 (위젯이 안 뜨는 곳 대비)
+  quotes: [                               // 장 마감 기준 숫자 (KOSPI·KOSDAQ만, VIX는 실시간 위젯)
     { name: "KOSPI",  value: "4,915.68", chg: 4.34 },
-    { name: "KOSDAQ", value: "708.99",   chg: 8.13 },
-    { name: "VIX",    value: "24.65",    chg: -8.02 }   // 전일 대비 -2.15p
+    { name: "KOSDAQ", value: "708.99",   chg: 8.13 }
   ]
 };

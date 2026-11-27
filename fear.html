@@ -44,7 +44,7 @@ h1 em{font-style:normal;color:var(--gold)}
 section{margin-top:34px}
 h3{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:clamp(26px,3.6vw,36px);margin:0 0 6px}
 .note{color:var(--sub);font-size:14px}
-.quotes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:12px 0}
+.quotes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:12px 0}
 @media(max-width:600px){.quotes{grid-template-columns:minmax(0,1fr)}}
 .q{background:var(--panel);border:2px solid var(--line);border-radius:16px;padding:14px 16px;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
 .q span{color:var(--sub);font-weight:700}
@@ -54,6 +54,8 @@ h3{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:clamp(26px,
 .minis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:14px}
 @media(max-width:860px){.minis{grid-template-columns:minmax(0,1fr)}}
 .minis .tv{min-height:220px}
+.heat{min-height:620px;margin-top:12px}
+@media(max-width:600px){.heat{min-height:520px}}
 .zones{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:12px}
 @media(max-width:600px){.zones{grid-template-columns:minmax(0,1fr)}}
 .z{border-radius:14px;padding:12px;color:#0B0B0C;font-weight:900}
@@ -97,6 +99,17 @@ footer{border-top:1px solid var(--line);color:var(--sub);font-size:14px;padding:
     </div>
     <p class="note" style="margin-top:14px">KOSPI·KOSDAQ은 무료 위젯에서 제공되지 않아 장 마감 숫자로 보여드려요</p>
     <div class="quotes" id="quotes"></div>
+  </section>
+
+  <section id="map">
+    <h3>미장 맵지도 · S&amp;P 500</h3>
+    <p class="note">네모 크기는 시가총액, 색은 오늘 등락률이에요. 왼쪽 위 메뉴에서 나스닥100 등으로 바꿀 수 있고, 네모를 누르면 확대돼요.</p>
+    <div class="tv heat">
+      <div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div>
+      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-stock-heatmap.js" async>
+      {"exchanges":[],"dataSource":"SPX500","grouping":"sector","blockSize":"market_cap_basic","blockColor":"change","locale":"kr","symbolUrl":"","colorTheme":"dark","hasTopBar":true,"isDataSetEnabled":true,"isZoomEnabled":true,"hasSymbolTooltip":true,"isMonoSize":false,"width":"100%","height":620}
+      </script></div>
+    </div>
   </section>
 
   <section>
