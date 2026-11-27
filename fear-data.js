@@ -23,6 +23,10 @@ window.FEAR_DATA = {
     ]
   },
 
+  news: [                                 // 돈길 오늘의 3줄 뉴스 (직접 요약한 문장, 비어 있으면 카드 숨김)
+    // { tag: "미장", text: "엔비디아 실적 발표 후 반도체주 변동성 확대" },
+  ],
+
   quotes: [                               // 장 마감 기준 숫자 (KOSPI·KOSDAQ만, VIX는 실시간 위젯)
     { name: "KOSPI",  value: "4,915.68", chg: 4.34 },
     { name: "KOSDAQ", value: "708.99",   chg: 8.13 }
