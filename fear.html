@@ -50,7 +50,7 @@ h3{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:clamp(26px,
 .q span{color:var(--sub);font-weight:700}
 .q b{font-size:24px;font-weight:900;white-space:nowrap}
 .q em{font-style:normal;font-weight:900;white-space:nowrap}
-.tv{background:var(--panel);border:2px solid var(--line);border-radius:16px;overflow:hidden;min-height:76px}
+.tv{background:#131722;border:2px solid var(--line);border-radius:16px;overflow:hidden;min-height:46px}
 .minis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:14px}
 @media(max-width:860px){.minis{grid-template-columns:minmax(0,1fr)}}
 .minis .tv{min-height:220px}
@@ -78,24 +78,24 @@ footer{border-top:1px solid var(--line);color:var(--sub);font-size:14px;padding:
     <div class="tv">
       <div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div>
       <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
-      {"symbols":[{"proName":"FOREXCOM:SPXUSD","title":"S&P 500"},{"proName":"FOREXCOM:NSXUSD","title":"나스닥 100"},{"proName":"TVC:VIX","title":"VIX 공포지수"},{"proName":"KRX:KOSPI","title":"KOSPI"},{"proName":"KRX:KOSDAQ","title":"KOSDAQ"},{"proName":"FX_IDC:USDKRW","title":"원/달러"}],"showSymbolLogo":true,"isTransparent":true,"displayMode":"adaptive","colorTheme":"dark","locale":"kr"}
+      {"symbols":[{"proName":"FOREXCOM:SPXUSD","title":"S&P 500"},{"proName":"FOREXCOM:NSXUSD","title":"나스닥 100"},{"proName":"CAPITALCOM:VIX","title":"VIX 공포지수"},{"proName":"FX_IDC:USDKRW","title":"원/달러"},{"proName":"AMEX:EWY","title":"한국 ETF (EWY)"},{"proName":"NASDAQ:SOXX","title":"반도체 SOXX"}],"showSymbolLogo":true,"isTransparent":false,"displayMode":"adaptive","colorTheme":"dark","locale":"kr"}
       </script></div>
     </div>
     <div class="minis">
       <div class="tv"><div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div>
       <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
-      {"symbol":"TVC:VIX","width":"100%","height":220,"locale":"kr","dateRange":"3M","colorTheme":"dark","isTransparent":true,"autosize":false}
+      {"symbol":"CAPITALCOM:VIX","width":"100%","height":220,"locale":"kr","dateRange":"3M","colorTheme":"dark","isTransparent":false,"autosize":false}
       </script></div></div>
       <div class="tv"><div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div>
       <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
-      {"symbol":"FOREXCOM:NSXUSD","width":"100%","height":220,"locale":"kr","dateRange":"3M","colorTheme":"dark","isTransparent":true,"autosize":false}
+      {"symbol":"FOREXCOM:NSXUSD","width":"100%","height":220,"locale":"kr","dateRange":"3M","colorTheme":"dark","isTransparent":false,"autosize":false}
       </script></div></div>
       <div class="tv"><div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div>
       <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
-      {"symbol":"KRX:KOSPI","width":"100%","height":220,"locale":"kr","dateRange":"3M","colorTheme":"dark","isTransparent":true,"autosize":false}
+      {"symbol":"FOREXCOM:SPXUSD","width":"100%","height":220,"locale":"kr","dateRange":"3M","colorTheme":"dark","isTransparent":false,"autosize":false}
       </script></div></div>
     </div>
-    <p class="note" style="margin-top:14px">장 마감 기준 숫자</p>
+    <p class="note" style="margin-top:14px">KOSPI·KOSDAQ은 무료 위젯에서 제공되지 않아 장 마감 숫자로 보여드려요</p>
     <div class="quotes" id="quotes"></div>
   </section>
 
